@@ -1,7 +1,7 @@
 import random
 from reconchess import *
 
-## Will construct this bot to be aggressive and take trades more often.
+## Will construct this bot to be aggressive and take trades more often. Test 123
 
 class RandomBot(Player):
     def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
