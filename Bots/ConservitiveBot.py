@@ -18,7 +18,10 @@ class RandomBot(Player):
         pass
 
     def choose_move(self, move_actions: List[chess.Move], seconds_left: float) -> Optional[chess.Move]:
-        return random.choice(move_actions + [None])
+        try: 
+            return 
+        except:    
+            return random.choice(move_actions + [None])
 
     def handle_move_result(self, requested_move: Optional[chess.Move], taken_move: Optional[chess.Move],
                            captured_opponent_piece: bool, capture_square: Optional[Square]):
