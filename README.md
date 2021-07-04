@@ -1,6 +1,14 @@
 # ReconChess_Python
 This is a repo for building out the ReconChess Bots to participate in the Blind Chess tournaments : https://rbc.jhuapl.edu/
 
+Bots folder:
+
+To better learn how ReconChess APIs and Interfaces work, the LearningBot.py file contains the comments on how each method works.
+They are all called in a sequenced order based on you opponent's moves and you own move sets. 
+Each function/method contains a bit of an overview in how you should consider structuring your strategies. 
+It is most likely you will need to write custom scripts to calculate and store your board pieces and your opponent board pieces.
+
+
 
 Git Tutorial:
 
