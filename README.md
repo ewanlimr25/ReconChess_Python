@@ -20,6 +20,7 @@ It is most likely you will need to write custom scripts to calculate and store y
 
 
 
+
 Git Tutorial:
 
 To commite your changes to a specific branch, make sure you save all of your changes first.
@@ -48,6 +49,10 @@ Now at this stage you will want to go online and create a pull request to merge 
 
 Steps to fetch changes from remote repo to see what changes others have made:
 
+We can try with this command first
+
+git pull YourRemoteRepo Branch
+
 This will fetch all of the changes from remote branch
 
 1. git fetch --all
@@ -62,7 +67,7 @@ To work in new branch you will use:
 
 To merge changes from remote repo branch into your local branch:
 
-3. git merge YourRemoteRepo YourRepo
+3. git merge YourRemoteRepo Branch
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 

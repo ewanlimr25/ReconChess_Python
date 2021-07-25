@@ -1,5 +1,9 @@
 import random
 from reconchess import *
+import sys
+import Common_Util
+
+sys.path.append("../Util/")
 
 ## This file is to keep track of out understanding of what each function definition will entail and
 ## What we can do inside this function and what we should or can/will initialize inside of it.
@@ -35,6 +39,8 @@ class LearningBot(Player):
         self.color = color
 
         ## need to write in Util.py to include a helper function to set myPieces in a dictionary.
+        self.myPieces = Common_Util.generateBoard
+
         
 
     ## handle_opponent_move_result takes in 2 parameters captured_my_piece and capture_square
