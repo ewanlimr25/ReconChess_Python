@@ -30,7 +30,9 @@ class LearningBot(Player):
         self.myTurn = 0
 
         ## set to remember where my pieces are. This is a Dictionary that contains key:value where is chess.Piece : chess.Square
-        self.myPieces = None
+        self.fullBoard = None
+
+        self.enemyKing = None
 
 
     def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
@@ -39,7 +41,7 @@ class LearningBot(Player):
         self.color = color
 
         ## need to write in Util.py to include a helper function to set myPieces in a dictionary.
-        self.myPieces = Common_Util.generateBoard
+        self.fullBoard = chess.BaseBoard
 
         
 
@@ -56,7 +58,13 @@ class LearningBot(Player):
         return random.choice(sense_actions)
 
     def handle_sense_result(self, sense_result: List[Tuple[Square, Optional[chess.Piece]]]):
-        pass
+        ## will modify the pieces on the board for opponents.
+        for move in sense_result:
+            if move[1] is not None:
+                self.fullBoard.set_piece_at(move[0],move[1])
+                if move[1] is chess.KING and move[1].color is not self.color:
+                    self.enemyKing = move[0]
+
 
     def choose_move(self, move_actions: List[chess.Move], seconds_left: float) -> Optional[chess.Move]:
         ## increase move by 1
