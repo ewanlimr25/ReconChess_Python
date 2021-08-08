@@ -1,7 +1,8 @@
 import random
 from reconchess import *
 import sys
-import Common_Util
+from Common_Util import *
+from KillEm import *
 
 sys.path.append("../Util/")
 
@@ -34,6 +35,7 @@ class LearningBot(Player):
         self.myPieces = None
         self.enemyKing = None
         self.myLostPieces = None
+        self.enemyPieces = None
 
 
     def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
@@ -43,7 +45,8 @@ class LearningBot(Player):
 
         ## need to write in Util.py to include a helper function to set myPieces in a dictionary.
         self.fullBoard = chess.BaseBoard
-        self.myPieces = Common_Util.generatePieces(self.color)
+        self.myPieces = generatePieces(self.color)
+        self.enemyPieces = generatePieces(not self.color)
         self.myLostPieces = []
         
 
@@ -57,20 +60,23 @@ class LearningBot(Player):
 
     def choose_sense(self, sense_actions: List[Square], move_actions: List[chess.Move], seconds_left: float) -> \
             Optional[Square]:
-            
+
             if self.myTurn < 6 :
-                if len(self.myLostPieces) > 0:
-                    ## plan B deep learning
-                    
+
+                if len(self.myLostPieces) > 0:                    
+                    sense_location = TargetLockOn(self.enemyPieces, self.myPieces, self.fullBoard)
+                    return sense_location
                 else:
-                    if(self.color is chess.WHITE):
+
+                    if self.color is chess.WHITE:
                         return chess.F5
                     else:
                         return chess.C4
             else:
-                ## do deep learning sensing
+                sense_location = TargetLockOn(self.enemyPieces, self.myPieces, self.fullBoard)
+                return sense_location
 
-        return random.choice(sense_actions)
+        
 
     def handle_sense_result(self, sense_result: List[Tuple[Square, Optional[chess.Piece]]]):
         ## will modify the pieces on the board for opponents.
