@@ -31,8 +31,9 @@ class LearningBot(Player):
 
         ## set to remember where my pieces are. This is a Dictionary that contains key:value where is chess.Piece : chess.Square
         self.fullBoard = None
-
+        self.myPieces = None
         self.enemyKing = None
+        self.myLostPieces = None
 
 
     def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
@@ -42,7 +43,8 @@ class LearningBot(Player):
 
         ## need to write in Util.py to include a helper function to set myPieces in a dictionary.
         self.fullBoard = chess.BaseBoard
-
+        self.myPieces = Common_Util.generatePieces(self.color)
+        self.myLostPieces = []
         
 
     ## handle_opponent_move_result takes in 2 parameters captured_my_piece and capture_square
@@ -55,6 +57,19 @@ class LearningBot(Player):
 
     def choose_sense(self, sense_actions: List[Square], move_actions: List[chess.Move], seconds_left: float) -> \
             Optional[Square]:
+            
+            if self.myTurn < 6 :
+                if len(self.myLostPieces) > 0:
+                    ## plan B deep learning
+                    
+                else:
+                    if(self.color is chess.WHITE):
+                        return chess.F5
+                    else:
+                        return chess.C4
+            else:
+                ## do deep learning sensing
+
         return random.choice(sense_actions)
 
     def handle_sense_result(self, sense_result: List[Tuple[Square, Optional[chess.Piece]]]):
