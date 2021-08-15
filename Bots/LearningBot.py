@@ -42,8 +42,8 @@ class LearningBot(Player):
 
         ## need to write in Util.py to include a helper function to set myPieces in a dictionary.
         self.fullBoard = chess.BaseBoard
-        self.myPieces = generatePieces(self.color)
-        self.enemyPieces = generatePieces(not self.color)
+        self.myPieces = CommonUtility.generatePieces(self.color)
+        self.enemyPieces = CommonUtility.generatePieces(not self.color)
         self.myLostPieces = []
         
 
@@ -58,18 +58,15 @@ class LearningBot(Player):
     def choose_sense(self, sense_actions: List[Square], move_actions: List[chess.Move], seconds_left: float) -> \
             Optional[Square]:
 
-            if self.myTurn < 6 :
+            if self.myTurn < 6  and len(self.myLostPieces) == 0:
 
-                if len(self.myLostPieces) > 0:                    
-                    sense_location = TargetLockOn(self.enemyPieces, self.myPieces, self.fullBoard)
-                    return sense_location
+                if self.color is chess.WHITE:
+                    return chess.F5
                 else:
-                    if self.color is chess.WHITE:
-                        return chess.F5
-                    else:
-                        return chess.C4
+                    return chess.C4
+                    
             else:
-                sense_location = TargetLockOn(self.enemyPieces, self.myPieces, self.fullBoard)
+                sense_location = KillEm.TargetLockOn(self.enemyPieces, self.myPieces, self.fullBoard)
                 return sense_location
 
         
