@@ -4,6 +4,8 @@ from reconchess import *
 ## Only the OG knows what this bot will entail. King moves only.
 
 class RandomBot(Player):
+
+    
     def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
         pass
 
