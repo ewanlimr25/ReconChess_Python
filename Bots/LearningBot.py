@@ -1,10 +1,7 @@
 import random
 from reconchess import *
-import sys
 from Common_Util import *
 from KillEm import *
-
-sys.path.append("../Util/")
 
 ## This file is to keep track of out understanding of what each function definition will entail and
 ## What we can do inside this function and what we should or can/will initialize inside of it.
