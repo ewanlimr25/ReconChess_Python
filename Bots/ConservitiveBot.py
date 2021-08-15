@@ -2,18 +2,10 @@ import chess.engine
 import random
 import os
 from reconchess import *
+from Util.move_sets import move_tree
+move_tree = move_tree()
 
 STOCKFISH_ENV_VAR = '../stockfish/stockfish_13_win_x64_bmi2.exe'
-
-WHITE_SYSTEM = [chess.Move.from_uci('g1f3'), 
-    chess.Move.from_uci('g2g3'),
-    chess.Move.from_uci('f1f2'),
-    chess.Move.from_uci('e1g1')]
-
-BLACK_SYSTEM = [chess.Move.from_uci('g8f6'), 
-    chess.Move.from_uci('g7g6'),
-    chess.Move.from_uci('f8f7'),
-    chess.Move.from_uci('e8g8')]
 
 ## Will construct this bot to be conservative and play within own 4 spaces and establish defences.
 
@@ -41,6 +33,8 @@ class conservative_bot(Player):
         ## starts at -1 as the value is incremented prior to choose_move returning the next theory move.
         self.opening_count = -1
 
+        
+
 
     def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
         self.board = board
@@ -62,6 +56,7 @@ class conservative_bot(Player):
         pass
 
     def choose_move(self, move_actions: List[chess.Move], seconds_left: float) -> Optional[chess.Move]:
+        the_moves.banana()
         if self.my_system[self.opening_count] in move_actions:
             self.opening_count += 1
             print(self.opening_count)
