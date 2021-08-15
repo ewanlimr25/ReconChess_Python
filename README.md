@@ -1,12 +1,23 @@
 # ReconChess_Python
 This is a repo for building out the ReconChess Bots to participate in the Blind Chess tournaments : https://rbc.jhuapl.edu/
 
+Bot strategy:
+1. If you can take their king, you should take it
+2. Set up simple system-openings to win - London as white and ?slav? as black (Prashanth)
+
+- Set 1 (Ewan): Keep track of absolute piece positions as well as possible (based on sensing and exchanges - NOT PROBABILITIES)
+- Set 2: Probabilities of positions based on [a) turn #] and [b) common openings] and [c) projections of pieces]
+
+
+
+
 Bots folder:
 
 To better learn how ReconChess APIs and Interfaces work, the LearningBot.py file contains the comments on how each method works.
 They are all called in a sequenced order based on you opponent's moves and you own move sets. 
 Each function/method contains a bit of an overview in how you should consider structuring your strategies. 
 It is most likely you will need to write custom scripts to calculate and store your board pieces and your opponent board pieces.
+
 
 
 
@@ -38,6 +49,10 @@ Now at this stage you will want to go online and create a pull request to merge 
 
 Steps to fetch changes from remote repo to see what changes others have made:
 
+We can try with this command first
+
+git pull YourRemoteRepo Branch
+
 This will fetch all of the changes from remote branch
 
 1. git fetch --all
@@ -52,7 +67,7 @@ To work in new branch you will use:
 
 To merge changes from remote repo branch into your local branch:
 
-3. git merge YourRemoteRepo YourRepo
+3. git merge YourRemoteRepo Branch
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
