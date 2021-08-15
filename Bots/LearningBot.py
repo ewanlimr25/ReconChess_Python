@@ -67,7 +67,6 @@ class LearningBot(Player):
                     sense_location = TargetLockOn(self.enemyPieces, self.myPieces, self.fullBoard)
                     return sense_location
                 else:
-
                     if self.color is chess.WHITE:
                         return chess.F5
                     else:
