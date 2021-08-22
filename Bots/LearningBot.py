@@ -1,10 +1,7 @@
 import random
 from reconchess import *
-import sys
 from Common_Util import *
 from KillEm import *
-
-sys.path.append("../Util/")
 
 ## This file is to keep track of out understanding of what each function definition will entail and
 ## What we can do inside this function and what we should or can/will initialize inside of it.
@@ -45,8 +42,8 @@ class LearningBot(Player):
 
         ## need to write in Util.py to include a helper function to set myPieces in a dictionary.
         self.fullBoard = chess.BaseBoard
-        self.myPieces = generatePieces(self.color)
-        self.enemyPieces = generatePieces(not self.color)
+        self.myPieces = CommonUtility.generatePieces(self.color)
+        self.enemyPieces = CommonUtility.generatePieces(not self.color)
         self.myLostPieces = []
         
 
@@ -61,22 +58,19 @@ class LearningBot(Player):
     def choose_sense(self, sense_actions: List[Square], move_actions: List[chess.Move], seconds_left: float) -> \
             Optional[Square]:
 
-            if self.myTurn < 6 :
+            if self.myTurn < 6  and len(self.myLostPieces) == 0:
 
-                if len(self.myLostPieces) > 0:                    
-                    sense_location = TargetLockOn(self.enemyPieces, self.myPieces, self.fullBoard)
-                    return sense_location
+                if self.color is chess.WHITE:
+                    return chess.F5
                 else:
-                    if self.color is chess.WHITE:
-                        return chess.F5
-                    else:
-                        return chess.C4
+                    return chess.C4
+
             else:
-                sense_location = TargetLockOn(self.enemyPieces, self.myPieces, self.fullBoard)
+                sense_location = KillEm.TargetLockOn(self.enemyPieces, self.myPieces, self.fullBoard)
                 return sense_location
 
         
-
+    ## think about how to keep track of unique Knights and Rooks on the sides of the board.
     def handle_sense_result(self, sense_result: List[Tuple[Square, Optional[chess.Piece]]]):
         ## will modify the pieces on the board for opponents.
         for move in sense_result:
@@ -92,9 +86,26 @@ class LearningBot(Player):
 
         return random.choice(move_actions + [None])
 
+    ## think about how to keep track of unique Knights and Rooks on the sides of the board.
     def handle_move_result(self, requested_move: Optional[chess.Move], taken_move: Optional[chess.Move],
                            captured_opponent_piece: bool, capture_square: Optional[Square]):
-        pass
+
+        if requested_move is taken_move:
+
+            if captured_opponent_piece:
+                ## look through enemy pieces
+                for piece, square in self.enemyPieces.items():
+                    if square is capture_square:
+                        self.enemyPieces[piece].remove(square)
+            
+            self.myBoard.push(taken_move)
+
+        else: ## some other random stuff is in the way lmfao.
+            for piece, square in self.enemyPieces.items():
+                    if square is capture_square:
+                        self.enemyPieces[piece].remove(square)
+            
+            self.myBoard.push(taken_move)
 
     def handle_game_end(self, winner_color: Optional[Color], win_reason: Optional[WinReason],
                         game_history: GameHistory):
