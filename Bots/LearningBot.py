@@ -64,13 +64,13 @@ class LearningBot(Player):
                     return chess.F5
                 else:
                     return chess.C4
-                    
+
             else:
                 sense_location = KillEm.TargetLockOn(self.enemyPieces, self.myPieces, self.fullBoard)
                 return sense_location
 
         
-
+    ## think about how to keep track of unique Knights and Rooks on the sides of the board.
     def handle_sense_result(self, sense_result: List[Tuple[Square, Optional[chess.Piece]]]):
         ## will modify the pieces on the board for opponents.
         for move in sense_result:
@@ -86,9 +86,26 @@ class LearningBot(Player):
 
         return random.choice(move_actions + [None])
 
+    ## think about how to keep track of unique Knights and Rooks on the sides of the board.
     def handle_move_result(self, requested_move: Optional[chess.Move], taken_move: Optional[chess.Move],
                            captured_opponent_piece: bool, capture_square: Optional[Square]):
-        pass
+
+        if requested_move is taken_move:
+
+            if captured_opponent_piece:
+                ## look through enemy pieces
+                for piece, square in self.enemyPieces.items():
+                    if square is capture_square:
+                        self.enemyPieces[piece].remove(square)
+            
+            self.myBoard.push(taken_move)
+
+        else: ## some other random stuff is in the way lmfao.
+            for piece, square in self.enemyPieces.items():
+                    if square is capture_square:
+                        self.enemyPieces[piece].remove(square)
+            
+            self.myBoard.push(taken_move)
 
     def handle_game_end(self, winner_color: Optional[Color], win_reason: Optional[WinReason],
                         game_history: GameHistory):
