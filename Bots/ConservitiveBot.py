@@ -2,13 +2,12 @@ import chess.engine
 import random
 import os
 from reconchess import *
-from Util.move_sets import move_tree
-move_tree = move_tree()
+import Util.move_sets as ut
+
 
 STOCKFISH_ENV_VAR = '../stockfish/stockfish_13_win_x64_bmi2.exe'
 
 ## Will construct this bot to be conservative and play within own 4 spaces and establish defences.
-
 class conservative_bot(Player):
     def __init__(self):
         ## set the board as global to understand board state, can be used in choose_sense, choose_move
@@ -32,19 +31,13 @@ class conservative_bot(Player):
         ## set to keep track of how many moves of hard-coded theory have been made.
         ## starts at -1 as the value is incremented prior to choose_move returning the next theory move.
         self.opening_count = -1
-
-        
+       
 
 
     def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
         self.board = board
         self.color = color  # Boolean value where chess.WHITE = True and chess.BLACK = FALSE
-        if self.color:
-            self.my_system = WHITE_SYSTEM
-        else:
-            self.my_system = BLACK_SYSTEM
-
-
+      
     def handle_opponent_move_result(self, captured_my_piece: bool, capture_square: Optional[Square]):
         pass
 
@@ -56,16 +49,7 @@ class conservative_bot(Player):
         pass
 
     def choose_move(self, move_actions: List[chess.Move], seconds_left: float) -> Optional[chess.Move]:
-        the_moves.banana()
-        if self.my_system[self.opening_count] in move_actions:
-            self.opening_count += 1
-            print(self.opening_count)
-            print("My theory move is {}".f(self.my_system[self.opening_count]))
-            return WHITE_SYSTEM[self.opening_count]
-        else:
-            print(self.opening_count)
-            print("Unfortunately, the move {} was not in the list: \n{}".format(self.my_system[self.opening_count], move_actions))
-            return random.choice(move_actions + [None])
+        return ut.choose_move(self.color)
 
     def handle_move_result(self, requested_move: Optional[chess.Move], taken_move: Optional[chess.Move],
                            captured_opponent_piece: bool, capture_square: Optional[Square]):
