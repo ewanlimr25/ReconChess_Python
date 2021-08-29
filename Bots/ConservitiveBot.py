@@ -49,7 +49,8 @@ class conservative_bot(Player):
         pass
 
     def choose_move(self, move_actions: List[chess.Move], seconds_left: float) -> Optional[chess.Move]:
-        return ut.choose_move(self.color)
+        move_tree = ut.move_tree()
+        return move_tree.choose_move(move_actions)
 
     def handle_move_result(self, requested_move: Optional[chess.Move], taken_move: Optional[chess.Move],
                            captured_opponent_piece: bool, capture_square: Optional[Square]):

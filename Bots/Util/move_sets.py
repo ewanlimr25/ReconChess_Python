@@ -1,9 +1,9 @@
 from reconchess import *
-# import Common_Util
+import random
 
-class choose_move(color):
-    def first_six_moves():
-        print("I'm white and here's my move")
+
+class move_tree():
+    def choose_move(self, move_actions):
         return random.choice(move_actions + [None])
             # WHITE_SYSTEM = [chess.Move.from_uci('g1f3'), 
             #     chess.Move.from_uci('g2g3'),
@@ -11,7 +11,7 @@ class choose_move(color):
             #     chess.Move.from_uci('e1g1')]
 
 class black_moves():
-    def first_six_moves():
+    def choose_move(self):
         print("I'm black and here's my move")
         return random.choice(move_actions + [None])
             # BLACK_SYSTEM = [chess.Move.from_uci('g8f6'), 
