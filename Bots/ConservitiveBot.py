@@ -20,7 +20,7 @@ class conservative_bot(Player):
         self.my_piece_captured_square = None
 
         ## set a global for turn count and calculate possible moves.    
-        self.myTurn = 0
+        self.myTurn = -1
 
         ## set to remember where my pieces are. This is a Dictionary that contains key:value where is chess.Piece : chess.Square
         self.myPieces = None
@@ -49,8 +49,9 @@ class conservative_bot(Player):
         pass
 
     def choose_move(self, move_actions: List[chess.Move], seconds_left: float) -> Optional[chess.Move]:
+        self.myTurn += 1
         move_tree = ut.move_tree()
-        return move_tree.choose_move(move_actions)
+        return move_tree.choose_move(self.color, self.myTurn, self.board, move_actions)
 
     def handle_move_result(self, requested_move: Optional[chess.Move], taken_move: Optional[chess.Move],
                            captured_opponent_piece: bool, capture_square: Optional[Square]):
