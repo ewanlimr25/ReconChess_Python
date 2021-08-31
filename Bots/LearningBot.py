@@ -33,18 +33,20 @@ class LearningBot(Player):
         self.enemyKing = None
         self.myLostPieces = None
         self.enemyPieces = None
+        self.opponent_name = None
 
 
     def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
         ## set your global board
+        ## need to look more into chess.Board class to understand its uses.
         self.myBoard = board
         self.color = color
 
-        ## need to write in Util.py to include a helper function to set myPieces in a dictionary.
         self.fullBoard = chess.BaseBoard
         self.myPieces = CommonUtility.generatePieces(self.color)
         self.enemyPieces = CommonUtility.generatePieces(not self.color)
         self.myLostPieces = []
+        self.opponent_name = opponent_name
         
 
     ## handle_opponent_move_result takes in 2 parameters captured_my_piece and capture_square
