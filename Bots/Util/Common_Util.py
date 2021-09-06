@@ -13,19 +13,39 @@ class CommonUtility:
     def generatePieces(self, color):
         pieces = dict()
         if color == chess.WHITE:
-            pieces["Rook"] = [chess.A1, chess.H1]
-            pieces["Knight"] = [chess.B1, chess.G1]
-            pieces["Bishop"] = [chess.C1, chess.F1]
-            pieces["Queen"] = [chess.D1]
-            pieces["King"] = [chess.E1]
-            pieces["Pawn"] = [chess.A2, chess.B2,chess.C2,chess.D2,chess.E2,chess.F2,chess.G2,chess.H2]
+            pieces[chess.A1] = chess.Piece(chess.ROOK, color)
+            pieces[chess.H1] = chess.Piece(chess.ROOK, color)
+            pieces[chess.B1] = chess.Piece(chess.KNIGHT, color)
+            pieces[chess.G1] = chess.Piece(chess.KNIGHT, color)
+            pieces[chess.C1] = chess.Piece(chess.BISHOP, color)
+            pieces[chess.F1] = chess.Piece(chess.BISHOP, color)
+            pieces[chess.D1] = chess.Piece(chess.QUEEN, color)
+            pieces[chess.E1] = chess.Piece(chess.KING, color)
+            pieces[chess.A2] = chess.Piece(chess.PAWN, color)
+            pieces[chess.B2] = chess.Piece(chess.PAWN, color)
+            pieces[chess.C2] = chess.Piece(chess.PAWN, color)
+            pieces[chess.D2] = chess.Piece(chess.PAWN, color)
+            pieces[chess.E2] = chess.Piece(chess.PAWN, color)
+            pieces[chess.F2] = chess.Piece(chess.PAWN, color)
+            pieces[chess.G2] = chess.Piece(chess.PAWN, color)
+            pieces[chess.H2] = chess.Piece(chess.PAWN, color)
         else:
-            pieces["Rook"] = [chess.A8, chess.H8]
-            pieces["Knight"] = [chess.B8, chess.G8]
-            pieces["Bishop"] = [chess.C8, chess.F8]
-            pieces["Queen"] = [chess.D8]
-            pieces["King"] = [chess.E8]
-            pieces["Pawn"] = [chess.A7, chess.B7,chess.C7,chess.D7,chess.E7,chess.F7,chess.G7,chess.H7]
+            pieces[chess.A8] = chess.Piece(chess.ROOK, color)
+            pieces[chess.H8] = chess.Piece(chess.ROOK, color)
+            pieces[chess.B8] = chess.Piece(chess.KNIGHT, color)
+            pieces[chess.G8] = chess.Piece(chess.KNIGHT, color)
+            pieces[chess.C8] = chess.Piece(chess.BISHOP, color)
+            pieces[chess.F8] = chess.Piece(chess.BISHOP, color)
+            pieces[chess.D8] = chess.Piece(chess.QUEEN, color)
+            pieces[chess.E8] = chess.Piece(chess.KING, color)
+            pieces[chess.A7] = chess.Piece(chess.PAWN, color)
+            pieces[chess.B7] = chess.Piece(chess.PAWN, color)
+            pieces[chess.C7] = chess.Piece(chess.PAWN, color)
+            pieces[chess.D7] = chess.Piece(chess.PAWN, color)
+            pieces[chess.E7] = chess.Piece(chess.PAWN, color)
+            pieces[chess.F7] = chess.Piece(chess.PAWN, color)
+            pieces[chess.G7] = chess.Piece(chess.PAWN, color)
+            pieces[chess.H7] = chess.Piece(chess.PAWN, color)
         return pieces
     
 
