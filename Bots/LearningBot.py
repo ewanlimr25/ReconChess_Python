@@ -84,6 +84,8 @@ class LearningBot(Player):
         ## increase move by 1
         self.myTurn+=1
 
+        ## One way to return specific moves in UCI notation with is classmethod 'from_uci' 
+        ## e.g., chess.Move.from_uci('d2d4')
         return random.choice(move_actions + [None])
 
     ## think about how to keep track of unique Knights and Rooks on the sides of the board.

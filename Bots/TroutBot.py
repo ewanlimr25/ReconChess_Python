@@ -3,7 +3,7 @@ import random
 from reconchess import *
 import os
 
-STOCKFISH_ENV_VAR = '../stockfish/stockfish_13_win_x64_bmi2.exe'
+STOCKFISH_ENV_VAR = 'STOCKFISH_ENV_VAR'
 
 
 class TroutBot(Player):
@@ -20,6 +20,7 @@ class TroutBot(Player):
 
         # make sure stockfish environment variable exists
         if STOCKFISH_ENV_VAR not in os.environ:
+            print(os.environ)
             raise KeyError(
                 'TroutBot requires an environment variable called "{}" pointing to the Stockfish executable'.format(
                     STOCKFISH_ENV_VAR))
@@ -62,16 +63,21 @@ class TroutBot(Player):
     def handle_sense_result(self, sense_result: List[Tuple[Square, Optional[chess.Piece]]]):
         # add the pieces in the sense result to our board
         for square, piece in sense_result:
+            # print("Handle_sense_result - Square:{}".format(square))
+            # print("Handle_sense_result - Piece:{}".format(piece))
             self.board.set_piece_at(square, piece)
 
     def choose_move(self, move_actions: List[chess.Move], seconds_left: float) -> Optional[chess.Move]:
         # if we might be able to take the king, try to
         enemy_king_square = self.board.king(not self.color)
+        print(enemy_king_square)
         if enemy_king_square:
             # if there are any ally pieces that can take king, execute one of those moves
             enemy_king_attackers = self.board.attackers(self.color, enemy_king_square)
             if enemy_king_attackers:
                 attacker_square = enemy_king_attackers.pop()
+                print("Attacker square:{}".format(type(attacker_square)))
+                print("Enemy_king_square:{}".format(type(enemy_king_square)))
                 return chess.Move(attacker_square, enemy_king_square)
 
         # otherwise, try to move with the stockfish chess engine
