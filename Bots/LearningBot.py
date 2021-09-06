@@ -28,23 +28,23 @@ class LearningBot(Player):
         self.myTurn = 0
 
         ## set to remember where my pieces are. This is a Dictionary that contains key:value where is chess.Piece : chess.Square
-        self.fullBoard = None
         self.myPieces = None
         self.enemyKing = None
         self.myLostPieces = None
         self.enemyPieces = None
+        self.opponent_name = None
 
 
     def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
         ## set your global board
+        ## need to look more into chess.Board class to understand its uses.
         self.myBoard = board
         self.color = color
 
-        ## need to write in Util.py to include a helper function to set myPieces in a dictionary.
-        self.fullBoard = chess.BaseBoard
         self.myPieces = CommonUtility.generatePieces(self.color)
         self.enemyPieces = CommonUtility.generatePieces(not self.color)
         self.myLostPieces = []
+        self.opponent_name = opponent_name
         
 
     ## handle_opponent_move_result takes in 2 parameters captured_my_piece and capture_square
@@ -66,7 +66,7 @@ class LearningBot(Player):
                     return chess.C4
 
             else:
-                sense_location = KillEm.TargetLockOn(self.enemyPieces, self.myPieces, self.fullBoard)
+                sense_location = KillEm.TargetLockOn(self.enemyPieces, self.myPieces, self.myBoard)
                 return sense_location
 
         
@@ -88,26 +88,21 @@ class LearningBot(Player):
         ## e.g., chess.Move.from_uci('d2d4')
         return random.choice(move_actions + [None])
 
-    ## think about how to keep track of unique Knights and Rooks on the sides of the board.
+    
     def handle_move_result(self, requested_move: Optional[chess.Move], taken_move: Optional[chess.Move],
                            captured_opponent_piece: bool, capture_square: Optional[Square]):
 
-        if requested_move is taken_move:
+        if captured_opponent_piece:
+            self.myBoard.remove_piece_at(capture_square)
+            if capture_square in self.enemyPieces:
+            ## remove enemy pieces
+                self.enemyPieces.pop(capture_square)
+            else:
+                ## Sept 5, 2021, gotta handle unknown piece taken.
+                self.enemyPieces[taken_move.to_square] = None         
+        
+        self.myBoard.push(taken_move)
 
-            if captured_opponent_piece:
-                ## look through enemy pieces
-                for piece, square in self.enemyPieces.items():
-                    if square is capture_square:
-                        self.enemyPieces[piece].remove(square)
-            
-            self.myBoard.push(taken_move)
-
-        else: ## some other random stuff is in the way lmfao.
-            for piece, square in self.enemyPieces.items():
-                    if square is capture_square:
-                        self.enemyPieces[piece].remove(square)
-            
-            self.myBoard.push(taken_move)
 
     def handle_game_end(self, winner_color: Optional[Color], win_reason: Optional[WinReason],
                         game_history: GameHistory):
