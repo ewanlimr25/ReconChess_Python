@@ -19,13 +19,8 @@ class move_tree():
         else:
             my_system = BLACK_SYSTEM
             side = "black"
-        if my_system[turn] in move_actions:
-            move = my_system[turn]
+        if turn < len(my_system):
+            if my_system[turn] in move_actions:
+                move = my_system[turn]
         print("I'm {}. It's turn# {} and here's my move {}".format(side, turn, move))
         return move
-
-
-class black_moves():
-    def choose_move(self):
-        print("I'm black and here's my move")
-        return random.choice(move_actions + [None])

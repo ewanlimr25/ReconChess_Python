@@ -43,10 +43,15 @@ class conservative_bot(Player):
 
     def choose_sense(self, sense_actions: List[Square], move_actions: List[chess.Move], seconds_left: float) -> \
             Optional[Square]:
-        return random.choice(sense_actions)
+        if self.color == True:
+            chosen_sense = chess.F5
+        elif self.color == False:
+            chosen_sense = chess.F6
+        print("I sensed: {}".format(chosen_sense))
+        return chosen_sense
 
     def handle_sense_result(self, sense_result: List[Tuple[Square, Optional[chess.Piece]]]):
-        pass
+        print("I sensed {}".format(sense_result))
 
     def choose_move(self, move_actions: List[chess.Move], seconds_left: float) -> Optional[chess.Move]:
         self.myTurn += 1
