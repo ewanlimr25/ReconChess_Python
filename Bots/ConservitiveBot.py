@@ -31,7 +31,7 @@ class conservative_bot(Player):
         ## set to keep track of how many moves of hard-coded theory have been made.
         ## starts at -1 as the value is incremented prior to choose_move returning the next theory move.
         self.opening_count = -1
-       
+
 
 
     def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
