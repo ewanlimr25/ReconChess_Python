@@ -31,7 +31,9 @@ class conservative_bot(Player):
         ## set to keep track of how many moves of hard-coded theory have been made.
         ## starts at -1 as the value is incremented prior to choose_move returning the next theory move.
         self.opening_count = -1
-
+        
+        ## set to determine if the hard-coded theory stage is complete
+        self.in_position = False
 
 
     def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
@@ -43,12 +45,17 @@ class conservative_bot(Player):
 
     def choose_sense(self, sense_actions: List[Square], move_actions: List[chess.Move], seconds_left: float) -> \
             Optional[Square]:
-        if self.color == True:
-            chosen_sense = chess.F5
-        elif self.color == False:
-            chosen_sense = chess.F6
-        print("I sensed: {}".format(chosen_sense))
+        if self.in_position:
+            chosen_sense = random.choice(sense_actions)
+        elif not self.in_position:
+            if self.color == True:
+                chosen_sense = chess.F5
+            elif self.color == False:
+                chosen_sense = chess.F6
+        print("Our 'in position' status is {}.\nI sensed {}".format(self.in_position, chosen_sense))
         return chosen_sense
+
+
 
     def handle_sense_result(self, sense_result: List[Tuple[Square, Optional[chess.Piece]]]):
         print("I sensed {}".format(sense_result))
