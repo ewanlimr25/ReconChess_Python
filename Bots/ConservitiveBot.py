@@ -60,6 +60,12 @@ class conservative_bot(Player):
 
     def handle_sense_result(self, sense_result: List[Tuple[Square, Optional[chess.Piece]]]):
         print("I sensed {}".format(sense_result))
+        print(type(sense_result))
+        for square, piece in sense_result:
+            # print("Handle_sense_result - Square:{}".format(square))
+            # print("Handle_sense_result - Piece:{}".format(piece))
+            self.board.set_piece_at(square, piece)
+
 
     def choose_move(self, move_actions: List[chess.Move], seconds_left: float) -> Optional[chess.Move]:
         self.myTurn += 1
