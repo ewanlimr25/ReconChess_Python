@@ -24,7 +24,7 @@ class move_tree():
             chess.Move.from_uci('b8d7'), # Nbd7
             chess.Move.from_uci('f8e8'), # Re8
             chess.Move.from_uci('e7e5'), # e5
-            chess.Move.from_uci('d8e7'), # Qe7
+            chess.Move.from_uci('d8e7')] # Qe7
         
         move = random.choice(move_actions + [None])
         
