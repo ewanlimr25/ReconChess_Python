@@ -5,7 +5,6 @@ import random
 
 class move_tree():
     def choose_move(self, color, turn, board, in_position, move_actions):
-
         WHITE_SYSTEM = [chess.Move.from_uci('g1f3'), # Nf3
             chess.Move.from_uci('g2g3'), # g3
             chess.Move.from_uci('f1g2'), # Bg2
@@ -26,14 +25,14 @@ class move_tree():
             chess.Move.from_uci('e7e5'), # e5
             chess.Move.from_uci('d8e7')] # Qe7
         
-        move = random.choice(move_actions + [None])
-        
-        if color:
-            my_system = WHITE_SYSTEM
-            side = "white"
-        else:
+        my_system = WHITE_SYSTEM
+        side = "white"
+
+        if chess.BLACK:
             my_system = BLACK_SYSTEM
             side = "black"
+
+        move = random.choice(move_actions + [None])
         
         if turn < len(my_system) and not in_position:
             if my_system[turn] in move_actions:
@@ -41,6 +40,5 @@ class move_tree():
                 print("I'm {}. It's turn# {} and here's my move {}".format(side, turn, move))
                 return move
         else:
-            print("All out of theory moves - randomly playing {} now.".format(move))        
-        
+            print("All out of theory moves - randomly playing {} now.".format(move))            
         return move
