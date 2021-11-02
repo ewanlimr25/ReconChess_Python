@@ -70,7 +70,7 @@ class conservative_bot(Player):
     def choose_move(self, move_actions: List[chess.Move], seconds_left: float) -> Optional[chess.Move]:
         self.myTurn += 1
         move_tree = ut.move_tree()
-        return move_tree.choose_move(self.color, self.myTurn, self.board, move_actions)
+        return move_tree.choose_move(self.color, self.myTurn, self.board, self.in_position, move_actions)
 
     def handle_move_result(self, requested_move: Optional[chess.Move], taken_move: Optional[chess.Move],
                            captured_opponent_piece: bool, capture_square: Optional[Square]):
