@@ -33,7 +33,7 @@ class conservative_bot(Player):
         self.opening_count = -1
 
         ## set to determine if the hard-coded theory stage is complete
-        self.in_position = False
+        self.theory_status = True
        
 
 
@@ -46,31 +46,30 @@ class conservative_bot(Player):
 
     def choose_sense(self, sense_actions: List[Square], move_actions: List[chess.Move], seconds_left: float) -> \
             Optional[Square]:
-        if self.in_position:
+        if not self.theory_status:
             chosen_sense = random.choice(sense_actions)
-        elif not self.in_position:
+        elif self.theory_status:
             if self.color == True:
                 chosen_sense = chess.F5
             elif self.color == False:
-                chosen_sense = chess.F6
-        print("Our 'in position' status is {}.\nI sensed {}".format(self.in_position, chosen_sense))
+                chosen_sense = chess.F4
+        print("\n\nTURN NUMBER {}".format(self.myTurn + 1))
+        print("Our 'theory' status is {}.\nI sensed square {}".format(self.theory_status, chosen_sense))
         return chosen_sense
 
 
 
     def handle_sense_result(self, sense_result: List[Tuple[Square, Optional[chess.Piece]]]):
-        print("I sensed {}".format(sense_result))
-        print(type(sense_result))
+        print("From my sense, I observed {}".format(sense_result))
         for square, piece in sense_result:
-            # print("Handle_sense_result - Square:{}".format(square))
-            # print("Handle_sense_result - Piece:{}".format(piece))
             self.board.set_piece_at(square, piece)
 
 
     def choose_move(self, move_actions: List[chess.Move], seconds_left: float) -> Optional[chess.Move]:
         self.myTurn += 1
         move_tree = ut.move_tree()
-        return move_tree.choose_move(self.color, self.myTurn, self.board, self.in_position, move_actions)
+        move, self.theory_status = move_tree.choose_move(self.color, self.myTurn, self.board, self.theory_status, move_actions)
+        return move
 
     def handle_move_result(self, requested_move: Optional[chess.Move], taken_move: Optional[chess.Move],
                            captured_opponent_piece: bool, capture_square: Optional[Square]):
