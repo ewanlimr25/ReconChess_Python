@@ -36,7 +36,6 @@ class conservative_bot(Player):
         self.theory_status = True
        
 
-
     def handle_game_start(self, color: Color, board: chess.Board, opponent_name: str):
         self.board = board
         self.color = color  # Boolean value where chess.WHITE = True and chess.BLACK = FALSE
