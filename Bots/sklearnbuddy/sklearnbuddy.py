@@ -1,9 +1,12 @@
 import random
 from reconchess import *
+from utils.boardtofen import *
 
 # Next steps
 # 1. get bot to understand/print the board as a fen
 # 2. build a database where input variables are the characters that compose a fen and output variables are a) moves made by good bots or b) moves recommended by stockfish for the true match
+# 3. Note that the one hot encoding will cover (6 pieces (ignore the blanks) * 2 colours * 64 squares = 768 columns!
+
 
 class RandomBot(Player):
 
@@ -23,7 +26,7 @@ class RandomBot(Player):
 
     def choose_sense(self, sense_actions: List[Square], move_actions: List[chess.Move], seconds_left: float) -> \
             Optional[Square]:
-        print(self.board)
+        boardtofen(self.board)
         return random.choice(sense_actions)
 
     def handle_sense_result(self, sense_result: List[Tuple[Square, Optional[chess.Piece]]]):
