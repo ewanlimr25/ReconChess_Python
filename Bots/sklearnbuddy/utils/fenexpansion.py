@@ -18,14 +18,16 @@ def fenexpansion(board):
     halfmove_clock = split_fen_full[4]
     fullmove_number = split_fen_full[5]
 
-    board_rows = pieces.split("/")
-
-    for row in board_rows:
+    # Iterate through pieces and replace blank numbers with the appropriate
+    # number of '@'s
+    expanded_board = ''
+    for row in pieces:
         for character in row:
-            if
-
-
-    return(board_rows)
+            if character.isdigit():
+                expanded_board += int(character)*'@'
+            else:
+                expanded_board += character
+    return(expanded_board)
 
 board = "r1b1kbnr/ppp1p1pp/n7/3P1P1Q/3PP3/1BN2P2/PP2N1PP/R1BQK2R b KQkq - 0 5"
 
