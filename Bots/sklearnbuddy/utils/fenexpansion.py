@@ -19,7 +19,8 @@ def blankboard():
     board_coords = []
     for number in ['1', '2', '3', '4', '5', '6', '7', '8']:
         for letter in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']:
-            board_coords.append(letter + number)
+            for piecetype in ['P', 'N', 'B', 'R', 'Q', 'K', 'p', 'n', 'b', 'r', 'q', 'k', '@']:
+                board_coords.append(letter + number + piecetype)
     board_df = pd.DataFrame(columns = board_coords)
     return(board_df)
 
@@ -45,11 +46,14 @@ def fenexpansion(board):
                 expanded_board += int(character)*'@'
             else:
                 expanded_board += character
+
+    # Initialize blankboard with all 832 columns
     board_data = blankboard()
+
     board_data.loc[0] = list(expanded_board)
     board_data = pd.get_dummies(board_data)
     return(board_data)
 
 board = "r1b1kbnr/ppp1p1pp/n7/3P1P1Q/3PP3/1BN2P2/PP2N1PP/R1BQK2R b KQkq - 0 5"
 
-print(fenexpansion(board))
+# print(fenexpansion(board))
