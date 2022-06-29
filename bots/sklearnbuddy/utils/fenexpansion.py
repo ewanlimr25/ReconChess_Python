@@ -41,10 +41,12 @@ def fenexpansion(board):
     halfmove_clock = split_fen_full[4]
     fullmove_number = split_fen_full[5]
 
-    # Iterate through pieces and replace blank numbers with the appropriate
-    # number of '@'s
+    # Remove the slashes (chess board rank separators) from the string
     pieces = pieces.replace("/","")
     expanded_board = ''
+    
+    # Iterate through pieces and replace blank numbers with the appropriate
+    # number of '@'s. 
     for row in pieces:
         for character in row:
             if character.isdigit():
@@ -53,21 +55,34 @@ def fenexpansion(board):
                 expanded_board += character
 
     # Initialize blankboard with all 832 columns
+    # Each column is a unique piece-square combination (e.g., a1Q is a column
+    # with the value of '1' when there is a white queen on a1 and '0'
+    # otherwise.
     board_data = blankboard()
     
     # List of all the column names in the main 832 column dataframe
     board_cols = list(board_data)
 
-    for piece in expanded_board:
-        print(piece)
+    # add a row of all zeros to the board
+    board_data.loc[len(board_data)] = 0
 
-
-    # board_data.loc[0] = list(expanded_board)
-    # board_data = pd.get_dummies(board_data)
+    # determine which position on the board (e.g., a4) each piece belongs to
+    # then flip that piece from a 0 to a 1
+    for i in range(len(expanded_board)): 
+        piece = expanded_board[i]
+        rank = i // 8 + 1
+        file = "abcdefgh"[i % 8]
+        present_piece = file + str(rank) + piece
+        board_data.loc[len(board_data)-1, present_piece] = 1
     
-    return(board_cols)
-#   return(expanded_board)
+    print(board_data)
+    board_data.to_csv("board_data.csv")
+    
+    board_data.iloc[0, 1] = 1
+    a = "a1P"
+    board_data.loc[0, a] = 1
+
 
 board = "r1b1kbnr/ppp1p1pp/n7/3P1P1Q/3PP3/1BN2P2/PP2N1PP/R1BQK2R b KQkq - 0 5"
 
-print(fenexpansion(board))
+fenexpansion(board)
