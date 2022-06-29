@@ -1,14 +1,15 @@
 from reconchess import *
+import chess
+import os
+import json
 
 ## The purpose of this file is to establit a common functionality to be used to calculate movesets, weights, etc.
 ## This is a work in process for common functions. Specific calcualtion files will be separate from this one.
 
+
 class CommonUtility:
-
-
     def generateBoard(self) -> chess.BaseBoard:
         return chess.BaseBoard
-
 
     def generatePieces(self, color):
         pieces = dict()
@@ -47,5 +48,18 @@ class CommonUtility:
             pieces[chess.G7] = chess.Piece(chess.PAWN, color)
             pieces[chess.H7] = chess.Piece(chess.PAWN, color)
         return pieces
-    
 
+    def getGames(self):
+        return os.walk("../Games")
+
+    def parseJsonFile(self, file):
+        return json.load(file)
+
+    def whiteWins(self, winningColor):
+        return chess.WHITE == winningColor
+
+    def getFenAfterMove(self, fen, color):
+        if color == chess.WHITE:
+            return fen["true"]
+        else:
+            return fen["false"]
