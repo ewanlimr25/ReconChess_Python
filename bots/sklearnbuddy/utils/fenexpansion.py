@@ -5,6 +5,7 @@ import pandas as pd
 # that can be fed into a regression model.
 # (https://en.wikipedia.org/wiki/Dummy_variable_(statistics))
 
+
 """
 6 fields:
     1. piece placement
@@ -34,10 +35,20 @@ def blankboard():
     board_coords.append("k_castle_rights") # black kingside castle
     board_coords.append("q_castle_rights") # black queenside castle
 
-    # 4. 
+    # 4. en passant target square
+    for number in ['1', '2', '3', '4', '5', '6', '7', '8']:
+        for letter in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']:
+            board_coords.append('ep_' + letter + number)
+
+    # 5. halfmove clock - denotes how many moves it has been since the last capture or pawn advance
+    # This may be kind of meaningless for reconchess
+    board_coords.append("halfmove_clock")
+
+    # 6. fullmove number
+    board_coords.append("fullmove_number")
+
     board_df = pd.DataFrame(columns = board_coords)
     return(board_df)
-
 
 def fenexpansion(board):
     # Split the FEN string into individual fields
@@ -81,9 +92,18 @@ def fenexpansion(board):
         present_piece = file + str(rank) + piece
         board_data.loc[len(board_data)-1, present_piece] = 1
 
+    # 3. ACTIVE COLOR
+    if active_colour == 'b':
+        print("dog")
+    elif active_colour == 'w':
+        print("cat")
+    else:
+        raise ValueError('active_colour must be b or w, not ' + str(active_colour))
 
-    
+
     board_data.to_csv("board_data.csv")
+
+
     return(board_data)
 
 
