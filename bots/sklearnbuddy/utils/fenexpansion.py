@@ -27,25 +27,23 @@ def blankboard():
                 board_coords.append(letter + number + piecetype)
     
     # 2. active colour 
-    board_coords.append("active_colour")
+    # board_coords.append("active_colour")
 
-    # 3. castling
-    board_coords.append("K_castle_rights") # white kingside castle
-    board_coords.append("Q_castle_rights") # white queenside castle
-    board_coords.append("k_castle_rights") # black kingside castle
-    board_coords.append("q_castle_rights") # black queenside castle
+    # # 3. castling
+    # board_coords.append("K_castle_rights") # white kingside castle
+    # board_coords.append("Q_castle_rights") # white queenside castle
+    # board_coords.append("k_castle_rights") # black kingside castle
+    # board_coords.append("q_castle_rights") # black queenside castle
 
-    # 4. en passant target square
-    for number in ['1', '2', '3', '4', '5', '6', '7', '8']:
-        for letter in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']:
-            board_coords.append('ep_' + letter + number)
+    # # 4. en passant target square
+    # # Not including this for now
 
-    # 5. halfmove clock - denotes how many moves it has been since the last capture or pawn advance
-    # This may be kind of meaningless for reconchess
-    board_coords.append("halfmove_clock")
+    # # 5. halfmove clock - denotes how many moves it has been since the last capture or pawn advance
+    # # This may be kind of meaningless for reconchess
+    # board_coords.append("halfmove_clock")
 
-    # 6. fullmove number
-    board_coords.append("fullmove_number")
+    # # 6. fullmove number
+    # board_coords.append("fullmove_number")
 
     board_df = pd.DataFrame(columns = board_coords)
     return(board_df)
@@ -93,12 +91,13 @@ def fenexpansion(board):
         board_data.loc[len(board_data)-1, present_piece] = 1
 
     # 3. ACTIVE COLOR
-    if active_colour == 'b':
-        print("dog")
-    elif active_colour == 'w':
-        print("cat")
-    else:
-        raise ValueError('active_colour must be b or w, not ' + str(active_colour))
+    #if active_colour == 'b':
+    #    print("dog")
+    #elif active_colour == 'w':
+    #    print("cat")
+    #else:
+    #    raise ValueError('active_colour must be b or w, not ' + str(active_colour))
+
 
 
     board_data.to_csv("board_data.csv")
@@ -109,4 +108,6 @@ def fenexpansion(board):
 
 board = "r1b1kbnr/ppp1p1pp/n7/3P1P1Q/3PP3/1BN2P2/PP2N1PP/R1BQK2R b KQkq - 0 5"
 
-print(fenexpansion(board))
+test_board = fenexpansion(board)
+
+print(test_board)
