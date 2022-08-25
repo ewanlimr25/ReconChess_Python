@@ -122,7 +122,7 @@ def fenexpansion(board):
 
 
 def getGames():
-    return os.walk("../Games")
+    return os.walk("../../Games")
 
 
 def parseJsonFile(file):
