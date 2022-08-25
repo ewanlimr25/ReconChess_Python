@@ -117,6 +117,7 @@ def fenexpansion(board):
     #    raise ValueError('active_colour must be b or w, not ' + str(active_colour))
 
     board_data.to_csv("board_data.csv")
+<<<<<<< Updated upstream
 
     return board_data
 
@@ -138,6 +139,10 @@ def getFensBeforeMove(fen, color):
         return fen["true"]
     else:
         return fen["false"]
+=======
+
+    return board_data
+>>>>>>> Stashed changes
 
 
 board = "r1b1kbnr/ppp1p1pp/n7/3P1P1Q/3PP3/1BN2P2/PP2N1PP/R1BQK2R b KQkq - 0 5"
