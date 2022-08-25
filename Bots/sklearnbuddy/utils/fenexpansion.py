@@ -121,8 +121,6 @@ def fenexpansion(board):
     return board_data
 
 
-def getGames():
-    return os.walk("../../Games")
 
 
 def parseJsonFile(file):
@@ -140,8 +138,42 @@ def getFensBeforeMove(fen, color):
         return fen["false"]
 
 
-board = "r1b1kbnr/ppp1p1pp/n7/3P1P1Q/3PP3/1BN2P2/PP2N1PP/R1BQK2R b KQkq - 0 5"
+#board = "r1b1kbnr/ppp1p1pp/n7/3P1P1Q/3PP3/1BN2P2/PP2N1PP/R1BQK2R b KQkq - 0 5"
+#
+#test_board = fenexpansion(board)
+#
+#game_list = getGames()
 
-test_board = fenexpansion(board)
 
-print(test_board)
+#def getGames():
+#    game_list = []
+#    for root, dirs, files in os.walk("../../Games", topdown=False):
+#       for name in files:
+#          game_list.append(name)
+#    return(game_list)
+#
+#game_list = getGames()
+#print(game_list)
+
+
+for root, dirs, files in os.walk("../../Games", topdown=False):
+    white_moves = []
+    black_moves = []
+    winner = []
+    for name in files:
+        with open(os.path.join(root, name)) as json_file:
+            data = json.load(json_file)
+            game_fens.append(
+            print(getFensBeforeMove(data["fens_before_move"], chess.WHITE))
+            print(getFensBeforeMove(data["requested_moves"], chess.WHITE))
+            print(data["winner_color"])
+
+# 1. Fens before move (DONE)
+# 2. The move that was requested
+# 3. Who won
+
+# 1 row will be: [ the state of the board (fen) ] [ the move played following that fen ] [ if that move was made by a winner or loser (target variable!)] 
+
+# 1. [white_fen[0]] [white_requested_move[0]] [1 if white is winner, 0 if black is winner]
+#    [...]
+#    [blacl_fen[0]] [ ........................[1 if black is winner, 0 if white is winner]
