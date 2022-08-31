@@ -107,17 +107,6 @@ def fenexpansion(board):
         file = "abcdefgh"[i % 8]
         present_piece = file + str(rank) + piece
         board_data.loc[len(board_data) - 1, present_piece] = 1
-
-    # 3. ACTIVE COLOR
-    # if active_colour == 'b':
-    #    print("dog")
-    # elif active_colour == 'w':
-    #    print("cat")
-    # else:
-    #    raise ValueError('active_colour must be b or w, not ' + str(active_colour))
-
-    board_data.to_csv("board_data.csv")
-
     return board_data
 
 
@@ -138,10 +127,9 @@ def getFensBeforeMove(fen, color):
         return fen["false"]
 
 
-#board = "r1b1kbnr/ppp1p1pp/n7/3P1P1Q/3PP3/1BN2P2/PP2N1PP/R1BQK2R b KQkq - 0 5"
+
 #
-#test_board = fenexpansion(board)
-#
+
 #game_list = getGames()
 
 
@@ -157,16 +145,44 @@ def getFensBeforeMove(fen, color):
 
 
 for root, dirs, files in os.walk("../../Games", topdown=False):
+    fens_before_white_moves = []
+    fens_before_black_moves = []
     white_moves = []
     black_moves = []
     winner = []
     for name in files:
         with open(os.path.join(root, name)) as json_file:
             data = json.load(json_file)
-            game_fens.append(
-            print(getFensBeforeMove(data["fens_before_move"], chess.WHITE))
-            print(getFensBeforeMove(data["requested_moves"], chess.WHITE))
-            print(data["winner_color"])
+            fens_before_white_moves.append(getFensBeforeMove(data["fens_before_move"], chess.WHITE))
+            fens_before_black_moves.append(getFensBeforeMove(data["fens_before_move"], chess.BLACK))
+            white_moves.append(getFensBeforeMove(data["requested_moves"], chess.WHITE))
+            black_moves.append(getFensBeforeMove(data["requested_moves"], chess.BLACK))
+            winner.append(data["winner_color"])
+
+
+#print(fens_before_black_moves[0][0])
+#print(fens_before_white_moves[0][1])
+#print(black_moves[0][0])
+#print(winner[0])
+
+#print(len(winner))
+#print(len(black_moves))
+
+
+fen1 = fenexpansion(fens_before_black_moves[0][0])
+fen1 = pd.concat([fen1, pd.Series(winner[0])], 1)
+print(fen1)
+
+#fen2 = fenexpansion(fens_before_black_moves[0][1])
+
+#fen3 = pd.concat([fen1, fen2])
+#print(fen3)
+
+#print(fen3.to_csv("fen3.csv"))
+
+board = "r1b1kbnr/ppp1p1pp/n7/3P1P1Q/3PP3/1BN2P2/PP2N1PP/R1BQK2R b KQkq - 0 5"
+test_board = fenexpansion(board)
+
 
 # 1. Fens before move (DONE)
 # 2. The move that was requested
