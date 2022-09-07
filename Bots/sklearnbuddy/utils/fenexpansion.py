@@ -170,8 +170,36 @@ for root, dirs, files in os.walk("../../Games", topdown=False):
 
 
 fen1 = fenexpansion(fens_before_black_moves[0][0])
-fen1 = pd.concat([fen1, pd.Series(winner[0])], 1)
-print(fen1)
+
+#white_won = pd.Series(1 if winner[0] else 0)
+#blacks_move = pd.Series(black_moves[0][0]["value"])
+#whites_turn = pd.Series(0).rename('whites_turn')
+#fen1_with_winner = pd.concat((fen1, white_won.rename('white_won')), axis=1)
+#fen1_with_winner_and_move = pd.concat((fen1_with_winner, blacks_move.rename('requested_move')), axis=1)
+#fen1_full = pd.concat((fen1_with_winner_and_move, whites_turn), axis=1)
+#print(fen1_full)
+
+# Iterate through all of black's moves in game 0
+
+full_df = pd.DataFrame()
+
+for i in range(len(black_moves[0])):
+
+    white_won = pd.Series(1 if winner[0] else 0).rename('white_won')
+    blacks_move = pd.Series('skip' if black_moves[0][i] == None else  black_moves[0][i]["value"]).rename('requested_move')
+    whites_turn = pd.Series(0).rename('whites_turn')
+
+    current_fen = pd.concat((fenexpansion(fens_before_black_moves[0][i]), white_won), axis=1)
+    current_fen = pd.concat((current_fen, blacks_move), axis=1)
+    current_fen = pd.concat((current_fen, whites_turn), axis=1)
+
+    if i == 0:
+        full_df = pd.DataFrame(columns = list(current_fen))
+
+    full_df = pd.concat((full_df, current_fen), axis=0)
+
+print(full_df)
+#board_data.loc[len(board_data)] = 0
 
 #fen2 = fenexpansion(fens_before_black_moves[0][1])
 
