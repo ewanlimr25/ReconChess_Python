@@ -183,22 +183,36 @@ fen1 = fenexpansion(fens_before_black_moves[0][0])
 
 full_df = pd.DataFrame()
 
-for i in range(len(black_moves[0])):
+for j in range(50):
+    print(j)
+    for i in range(len(black_moves[j])):
+        white_won = pd.Series(1 if winner[0] else 0).rename('white_won')
+        blacks_move = pd.Series('skip' if black_moves[j][i] == None else black_moves[j][i]["value"]).rename('requested_move')
+        whites_turn = pd.Series(0).rename('whites_turn')
+        current_fen = pd.concat((fenexpansion(fens_before_black_moves[j][i]), white_won), axis=1)
+        current_fen = pd.concat((current_fen, blacks_move), axis=1)
+        current_fen = pd.concat((current_fen, whites_turn), axis=1)
+        if i == 0 and j == 0:
+            full_df = pd.DataFrame(columns = list(current_fen))
+        full_df = pd.concat((full_df, current_fen), axis=0)
 
-    white_won = pd.Series(1 if winner[0] else 0).rename('white_won')
-    blacks_move = pd.Series('skip' if black_moves[0][i] == None else  black_moves[0][i]["value"]).rename('requested_move')
-    whites_turn = pd.Series(0).rename('whites_turn')
+for j in range(50):
+    for i in range(len(white_moves[j])):
+        white_won = pd.Series(1 if winner[0] else 0).rename('white_won')
+        whites_move = pd.Series('skip' if white_moves[j][i] == None else  white_moves[j][i]["value"]).rename('requested_move')
+        whites_turn = pd.Series(0).rename('whites_turn')
+        current_fen = pd.concat((fenexpansion(fens_before_white_moves[j][i]), white_won), axis=1)
+        current_fen = pd.concat((current_fen, whites_move), axis=1)
+        current_fen = pd.concat((current_fen, whites_turn), axis=1)
+        full_df = pd.concat((full_df, current_fen), axis=0)
 
-    current_fen = pd.concat((fenexpansion(fens_before_black_moves[0][i]), white_won), axis=1)
-    current_fen = pd.concat((current_fen, blacks_move), axis=1)
-    current_fen = pd.concat((current_fen, whites_turn), axis=1)
-
-    if i == 0:
-        full_df = pd.DataFrame(columns = list(current_fen))
-
-    full_df = pd.concat((full_df, current_fen), axis=0)
 
 print(full_df)
+
+full_df.to_csv("first_50_games.csv")
+
+
+
 #board_data.loc[len(board_data)] = 0
 
 #fen2 = fenexpansion(fens_before_black_moves[0][1])
