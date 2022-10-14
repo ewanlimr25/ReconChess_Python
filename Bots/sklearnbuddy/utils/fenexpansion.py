@@ -199,8 +199,8 @@ for j in range(50):
 for j in range(50):
     for i in range(len(white_moves[j])):
         white_won = pd.Series(1 if winner[0] else 0).rename('white_won')
-        whites_move = pd.Series('skip' if white_moves[j][i] == None else  white_moves[j][i]["value"]).rename('requested_move')
-        whites_turn = pd.Series(0).rename('whites_turn')
+        whites_move = pd.Series('skip' if white_moves[j][i] == None else white_moves[j][i]["value"]).rename('requested_move')
+        whites_turn = pd.Series(1).rename('whites_turn')
         current_fen = pd.concat((fenexpansion(fens_before_white_moves[j][i]), white_won), axis=1)
         current_fen = pd.concat((current_fen, whites_move), axis=1)
         current_fen = pd.concat((current_fen, whites_turn), axis=1)
