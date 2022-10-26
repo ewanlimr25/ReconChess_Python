@@ -110,8 +110,6 @@ def fenexpansion(board):
     return board_data
 
 
-
-
 def parseJsonFile(file):
     return json.load(file)
 
@@ -127,21 +125,20 @@ def getFensBeforeMove(fen, color):
         return fen["false"]
 
 
-
 #
 
-#game_list = getGames()
+# game_list = getGames()
 
 
-#def getGames():
+# def getGames():
 #    game_list = []
 #    for root, dirs, files in os.walk("../../Games", topdown=False):
 #       for name in files:
 #          game_list.append(name)
 #    return(game_list)
 #
-#game_list = getGames()
-#print(game_list)
+# game_list = getGames()
+# print(game_list)
 
 
 for root, dirs, files in os.walk("../../Games", topdown=False):
@@ -153,31 +150,35 @@ for root, dirs, files in os.walk("../../Games", topdown=False):
     for name in files:
         with open(os.path.join(root, name)) as json_file:
             data = json.load(json_file)
-            fens_before_white_moves.append(getFensBeforeMove(data["fens_before_move"], chess.WHITE))
-            fens_before_black_moves.append(getFensBeforeMove(data["fens_before_move"], chess.BLACK))
+            fens_before_white_moves.append(
+                getFensBeforeMove(data["fens_before_move"], chess.WHITE)
+            )
+            fens_before_black_moves.append(
+                getFensBeforeMove(data["fens_before_move"], chess.BLACK)
+            )
             white_moves.append(getFensBeforeMove(data["requested_moves"], chess.WHITE))
             black_moves.append(getFensBeforeMove(data["requested_moves"], chess.BLACK))
             winner.append(data["winner_color"])
 
 
-#print(fens_before_black_moves[0][0])
-#print(fens_before_white_moves[0][1])
-#print(black_moves[0][0])
-#print(winner[0])
+# print(fens_before_black_moves[0][0])
+# print(fens_before_white_moves[0][1])
+# print(black_moves[0][0])
+# print(winner[0])
 
-#print(len(winner))
-#print(len(black_moves))
+# print(len(winner))
+# print(len(black_moves))
 
 
 fen1 = fenexpansion(fens_before_black_moves[0][0])
 
-#white_won = pd.Series(1 if winner[0] else 0)
-#blacks_move = pd.Series(black_moves[0][0]["value"])
-#whites_turn = pd.Series(0).rename('whites_turn')
-#fen1_with_winner = pd.concat((fen1, white_won.rename('white_won')), axis=1)
-#fen1_with_winner_and_move = pd.concat((fen1_with_winner, blacks_move.rename('requested_move')), axis=1)
-#fen1_full = pd.concat((fen1_with_winner_and_move, whites_turn), axis=1)
-#print(fen1_full)
+# white_won = pd.Series(1 if winner[0] else 0)
+# blacks_move = pd.Series(black_moves[0][0]["value"])
+# whites_turn = pd.Series(0).rename('whites_turn')
+# fen1_with_winner = pd.concat((fen1, white_won.rename('white_won')), axis=1)
+# fen1_with_winner_and_move = pd.concat((fen1_with_winner, blacks_move.rename('requested_move')), axis=1)
+# fen1_full = pd.concat((fen1_with_winner_and_move, whites_turn), axis=1)
+# print(fen1_full)
 
 # Iterate through all of black's moves in game 0
 
@@ -186,22 +187,30 @@ full_df = pd.DataFrame()
 for j in range(50):
     print(j)
     for i in range(len(black_moves[j])):
-        white_won = pd.Series(1 if winner[0] else 0).rename('white_won')
-        blacks_move = pd.Series('skip' if black_moves[j][i] == None else black_moves[j][i]["value"]).rename('requested_move')
-        whites_turn = pd.Series(0).rename('whites_turn')
-        current_fen = pd.concat((fenexpansion(fens_before_black_moves[j][i]), white_won), axis=1)
+        white_won = pd.Series(1 if winner[j] else 0).rename("white_won")
+        blacks_move = pd.Series(
+            "skip" if black_moves[j][i] == None else black_moves[j][i]["value"]
+        ).rename("requested_move")
+        whites_turn = pd.Series(0).rename("whites_turn")
+        current_fen = pd.concat(
+            (fenexpansion(fens_before_black_moves[j][i]), white_won), axis=1
+        )
         current_fen = pd.concat((current_fen, blacks_move), axis=1)
         current_fen = pd.concat((current_fen, whites_turn), axis=1)
         if i == 0 and j == 0:
-            full_df = pd.DataFrame(columns = list(current_fen))
+            full_df = pd.DataFrame(columns=list(current_fen))
         full_df = pd.concat((full_df, current_fen), axis=0)
 
 for j in range(50):
     for i in range(len(white_moves[j])):
-        white_won = pd.Series(1 if winner[0] else 0).rename('white_won')
-        whites_move = pd.Series('skip' if white_moves[j][i] == None else white_moves[j][i]["value"]).rename('requested_move')
-        whites_turn = pd.Series(1).rename('whites_turn')
-        current_fen = pd.concat((fenexpansion(fens_before_white_moves[j][i]), white_won), axis=1)
+        white_won = pd.Series(1 if winner[j] else 0).rename("white_won")
+        whites_move = pd.Series(
+            "skip" if white_moves[j][i] == None else white_moves[j][i]["value"]
+        ).rename("requested_move")
+        whites_turn = pd.Series(1).rename("whites_turn")
+        current_fen = pd.concat(
+            (fenexpansion(fens_before_white_moves[j][i]), white_won), axis=1
+        )
         current_fen = pd.concat((current_fen, whites_move), axis=1)
         current_fen = pd.concat((current_fen, whites_turn), axis=1)
         full_df = pd.concat((full_df, current_fen), axis=0)
@@ -212,15 +221,14 @@ print(full_df)
 full_df.to_csv("first_50_games.csv")
 
 
+# board_data.loc[len(board_data)] = 0
 
-#board_data.loc[len(board_data)] = 0
+# fen2 = fenexpansion(fens_before_black_moves[0][1])
 
-#fen2 = fenexpansion(fens_before_black_moves[0][1])
+# fen3 = pd.concat([fen1, fen2])
+# print(fen3)
 
-#fen3 = pd.concat([fen1, fen2])
-#print(fen3)
-
-#print(fen3.to_csv("fen3.csv"))
+# print(fen3.to_csv("fen3.csv"))
 
 board = "r1b1kbnr/ppp1p1pp/n7/3P1P1Q/3PP3/1BN2P2/PP2N1PP/R1BQK2R b KQkq - 0 5"
 test_board = fenexpansion(board)
@@ -230,7 +238,7 @@ test_board = fenexpansion(board)
 # 2. The move that was requested
 # 3. Who won
 
-# 1 row will be: [ the state of the board (fen) ] [ the move played following that fen ] [ if that move was made by a winner or loser (target variable!)] 
+# 1 row will be: [ the state of the board (fen) ] [ the move played following that fen ] [ if that move was made by a winner or loser (target variable!)]
 
 # 1. [white_fen[0]] [white_requested_move[0]] [1 if white is winner, 0 if black is winner]
 #    [...]
