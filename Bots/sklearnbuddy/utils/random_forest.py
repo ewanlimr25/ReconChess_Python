@@ -11,9 +11,10 @@ games = pd.read_csv("first_50_games.csv")
 # Create new variable indicating if the requested move was played by winner
 games["winner_move"] = (games["white_won"] == games["whites_turn"])
 
+games
+
 # Just examine the winner move-related columns
 games.loc[:, "white_won":"winner_move"]
-
 
 games["requested_move"].unique().size
 
@@ -33,19 +34,56 @@ whites_winners = games[(games["winner_move"] == 1) &
 blacks_winners = games[(games["winner_move"] == 1) &
                        (games["whites_turn"] == 0)]
 
+
 whites_losers_counts = whites_losers['requested_move'].value_counts()
+
 whites_winners_counts = whites_winners['requested_move'].value_counts()
+
 blacks_losers_counts = blacks_losers['requested_move'].value_counts()
+
 blacks_winners_counts = games['requested_move'].value_counts()
 
 
-print(count)
+def return_counts(series, win):
+    df = pd.DataFrame(series)
+    df.index.name = 'move'
+    df.reset_index(inplace=True)
+    if win:
+        df = df.rename({'requested_move': 'win_count'}, axis=1)
+    else:
+        df = df.rename({'requested_move': 'loss_count'}, axis=1)
+    return (df)
 
 
-count = df['A'].value_counts()
-print(count)
+white_lose = return_counts(whites_losers_counts, win=False)
+white_win = return_counts(whites_winners_counts, win=True)
+black_lose = return_counts(blacks_losers_counts, win=False)
+black_win = return_counts(blacks_winners_counts, win=True)
 
-print(type(games))
+type(white_lose)
+
+type(white_win)
+
+
+white_moves = white_win.merge(white_lose, on='move')
+
+no_skip = white_moves[white_moves['move'] != 'skip']
+
+no_skip.plot(kind='scatter', x='win_count', y='loss_count')
+plt.show()
+
+x = no_skip['win_count']
+y = no_skip['loss_count']
+jittered_y = y + 0.5 * np.random.rand(len(y)) - 0.05
+jittered_x = x + 0.5 * np.random.rand(len(x)) - 0.05
+plt.figure(figsize=(10,5))
+plt.scatter(jittered_x,jittered_y,s=10,alpha=0.5)
+
+for i, txt in enumerate(x):
+    plt.annotate(txt, (x[i], y[i]))
+
+plt.title('Y and X Jittered')
+plt.show()
 
 X = np.c_[games["a1P"]]
 y = np.c_[games["requested_move"]]
@@ -62,3 +100,12 @@ from plotnine.data import mtcars
  + geom_point()
  + stat_smooth(method='lm')
  + facet_wrap('~gear'))
+
+
+plt.scatter(x, y)
+
+for i, txt in enumerate(x):
+    print(type(i))
+    print(x[i])
+
+x[4]
