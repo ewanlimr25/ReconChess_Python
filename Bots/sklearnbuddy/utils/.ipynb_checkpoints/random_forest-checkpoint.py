@@ -31,9 +31,6 @@ whites_winners = games[(games["winner_move"] == 1) &
 blacks_winners = games[(games["winner_move"] == 1) &
                        (games["whites_turn"] == 0)]
 
-# white's games
-
-
 
 whites_losers_counts = whites_losers['requested_move'].value_counts()
 
