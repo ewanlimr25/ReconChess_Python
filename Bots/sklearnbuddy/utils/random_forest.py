@@ -5,13 +5,13 @@ import sklearn.linear_model
 import os
 from plotnine import ggplot, geom_point, aes
 
-#|%%--%%| <AvLKKyGCMI|dS1ABHMUkw>
-
+#|%%--%%| <AvLKKyGCMI|JxGOkjQMfv>
 # Import game data
-games = pd.read_csv("Bots/sklearnbuddy/utils/first_50_games.csv")
 
+games = pd.read_csv("Bots/sklearnbuddy/utils/first_50_games.csv")
 games.head()
 
+#|%%--%%| <JxGOkjQMfv|kIGvp5ht4h>
 # Create new variable indicating if the requested move was played by winner
 games["winner_move"] = (games["white_won"] == games["whites_turn"])
 
@@ -23,6 +23,13 @@ req_moves["start_rank"] = req_moves["requested_move"].map(lambda a: a[1:2])
 req_moves["end_file"] = req_moves["requested_move"].map(lambda a: a[2:3])
 req_moves["end_rank"] = req_moves["requested_move"].map(lambda a: a[3:4])
 
+#|%%--%%| <kIGvp5ht4h|h4X8kN63hf>
+r"""°°°
+The cell codes the requested move into 0s and 1s.
+Notably, we don't need many hundreds of dummy columns as we did when coding the variables.
+°°°"""
+#|%%--%%| <h4X8kN63hf|eC9VJ5neeI>
+# Code requested moves as 0s and 1s
 # https://stackoverflow.com/a/34348352
 req_moves["start_file_a"] = 0
 req_moves.loc[req_moves["start_file"] == "a", "start_file_a"] = 1
@@ -84,11 +91,12 @@ req_moves.loc[req_moves["end_rank"] == "6", "end_rank_6"] = 1
 req_moves["end_rank_7"] = 0
 req_moves.loc[req_moves["end_rank"] == "7", "end_rank_7"] = 1
 
+#|%%--%%| <eC9VJ5neeI|srkhbci04f>
+
+
 req_moves.iloc[1, :]
 
-
-
-req_moves
+req_moves.columns
 
 int("05")
 
@@ -102,7 +110,7 @@ blacks_moves = games[(games["whites_turn"] == 0)]
 
 games.keys()
 
-#|%%--%%| <dS1ABHMUkw|ALBd4YzEy1>
+#|%%--%%| <srkhbci04f|ALBd4YzEy1>
 r"""°°°
 The goal is to predict if a move is a winning or losing move
 °°°"""
