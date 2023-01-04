@@ -94,13 +94,16 @@ req_moves.loc[req_moves["end_rank"] == "7", "end_rank_7"] = 1
 #|%%--%%| <eC9VJ5neeI|srkhbci04f>
 
 
+req_moves.head()
+
 req_moves.iloc[1, :]
+
 
 req_moves.columns
 
-int("05")
-
 games.head()
+
+games.columns[-10:]
 
 # Is this move a winner's move or a loser's move?
 # Can train separate models for white & black
