@@ -6,12 +6,14 @@ import os
 from plotnine import ggplot, geom_point, aes
 
 #|%%--%%| <AvLKKyGCMI|JxGOkjQMfv>
+
 # Import game data
 
 games = pd.read_csv("Bots/sklearnbuddy/utils/first_50_games.csv")
 games.head()
 
 #|%%--%%| <JxGOkjQMfv|kIGvp5ht4h>
+
 # Create new variable indicating if the requested move was played by winner
 games["winner_move"] = (games["white_won"] == games["whites_turn"])
 
@@ -29,6 +31,7 @@ The cell codes the requested move into 0s and 1s.
 Notably, we don't need many hundreds of dummy columns as we did when coding the variables.
 °°°"""
 #|%%--%%| <h4X8kN63hf|eC9VJ5neeI>
+
 # Code requested moves as 0s and 1s
 # https://stackoverflow.com/a/34348352
 req_moves["start_file_a"] = 0
@@ -91,12 +94,44 @@ req_moves.loc[req_moves["end_rank"] == "6", "end_rank_6"] = 1
 req_moves["end_rank_7"] = 0
 req_moves.loc[req_moves["end_rank"] == "7", "end_rank_7"] = 1
 
-#|%%--%%| <eC9VJ5neeI|srkhbci04f>
+#|%%--%%| <eC9VJ5neeI|GpenAoF8kD>
+r"""°°°
+column 1: board state
+column 2: requested move
+column 3: did the requester win or lose
+X (input variables): column 1 & column 2
+y (output variable): column 3
+column 1 is actually like 800 columns
+
+Join the column 1 and column 2:
+°°°"""
+#|%%--%%| <GpenAoF8kD|srkhbci04f>
 
 
-req_moves.head()
 
-req_moves.iloc[1, :]
+list(games.columns)[-10:]
+
+list(req_moves.columns)[-10:]
+
+req_moves = req_moves.drop('requested_move', axis=1)
+
+req_moves
+
+
+df = pd.DataFrame([[1, 3, 5], [3, 4, 1], [3, 3, 3]], columns=['a', 'b', 'c'])
+df2 = pd.DataFrame([[-4, 3, 5], [3, 4, 1], [3, 3, 3]], columns=['a', 'b', 'c'])
+
+
+input_df = pd.concat([games, req_moves], axis=1)
+
+input_df.iloc[1:6, 833:838]
+
+list(input_df.columns)
+
+df.drop(['a'], axis=1)
+
+
+req_moves.iloc[0:3, 0:3]
 
 
 req_moves.columns
@@ -115,5 +150,7 @@ games.keys()
 
 #|%%--%%| <srkhbci04f|ALBd4YzEy1>
 r"""°°°
-The goal is to predict if a move is a winning or losing move
+The goal is to predict if a move is a winning or losing move.
+We can build a dataset for f(X) = y, where X is the board state + requested
+    move combo and y is whether or not the move was played by a winner or loser
 °°°"""
