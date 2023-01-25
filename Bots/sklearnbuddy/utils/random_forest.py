@@ -1,3 +1,4 @@
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,10 +13,13 @@ from plotnine import ggplot, geom_point, aes
 games = pd.read_csv("Bots/sklearnbuddy/utils/first_50_games.csv")
 games.head()
 
+
 #|%%--%%| <JxGOkjQMfv|kIGvp5ht4h>
+
 
 # Create new variable indicating if the requested move was played by winner
 games["winner_move"] = (games["white_won"] == games["whites_turn"])
+
 
 # Create new variables separating out the requested move into numbers
 req_moves = pd.DataFrame(games["requested_move"])
@@ -25,12 +29,14 @@ req_moves["start_rank"] = req_moves["requested_move"].map(lambda a: a[1:2])
 req_moves["end_file"] = req_moves["requested_move"].map(lambda a: a[2:3])
 req_moves["end_rank"] = req_moves["requested_move"].map(lambda a: a[3:4])
 
+
 #|%%--%%| <kIGvp5ht4h|h4X8kN63hf>
 r"""°°°
 The cell codes the requested move into 0s and 1s.
 Notably, we don't need many hundreds of dummy columns as we did when coding the variables.
 °°°"""
 #|%%--%%| <h4X8kN63hf|eC9VJ5neeI>
+
 
 # Code requested moves as 0s and 1s
 # https://stackoverflow.com/a/34348352
@@ -94,6 +100,7 @@ req_moves.loc[req_moves["end_rank"] == "6", "end_rank_6"] = 1
 req_moves["end_rank_7"] = 0
 req_moves.loc[req_moves["end_rank"] == "7", "end_rank_7"] = 1
 
+
 #|%%--%%| <eC9VJ5neeI|GpenAoF8kD>
 r"""°°°
 column 1: board state
@@ -107,46 +114,28 @@ Join the column 1 and column 2:
 °°°"""
 #|%%--%%| <GpenAoF8kD|srkhbci04f>
 
-
-
-list(games.columns)[-10:]
-
-list(req_moves.columns)[-10:]
-
+# Don't need this column anymore
 req_moves = req_moves.drop('requested_move', axis=1)
+games = games.drop('requested_move', axis=1)
 
-req_moves
-
-
-df = pd.DataFrame([[1, 3, 5], [3, 4, 1], [3, 3, 3]], columns=['a', 'b', 'c'])
-df2 = pd.DataFrame([[-4, 3, 5], [3, 4, 1], [3, 3, 3]], columns=['a', 'b', 'c'])
-
-
+# Generate input dataframe containing the board state and requested move
 input_df = pd.concat([games, req_moves], axis=1)
 
-input_df.iloc[1:6, 833:838]
+input_df
 
 list(input_df.columns)
-
-df.drop(['a'], axis=1)
-
-
-req_moves.iloc[0:3, 0:3]
-
-
-req_moves.columns
-
-games.head()
-
-games.columns[-10:]
 
 # Is this move a winner's move or a loser's move?
 # Can train separate models for white & black
 
-whites_moves = games[(games["whites_turn"] == 1)]
-blacks_moves = games[(games["whites_turn"] == 0)]
+white_df = input_df[(input_df["whites_turn"] == 1)]
+black_df = input_df[(input_df["whites_turn"] == 0)]
 
 games.keys()
+
+
+df.insert(0, 'mean', df.pop('mean'))
+
 
 #|%%--%%| <srkhbci04f|ALBd4YzEy1>
 r"""°°°
