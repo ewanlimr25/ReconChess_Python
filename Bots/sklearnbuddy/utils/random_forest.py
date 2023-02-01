@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import sklearn.linear_model
+from sklearn.ensemble import RandomForestClassifier
 import os
 from plotnine import ggplot, geom_point, aes
 
@@ -131,10 +132,27 @@ list(input_df.columns)
 white_df = input_df[(input_df["whites_turn"] == 1)]
 black_df = input_df[(input_df["whites_turn"] == 0)]
 
-games.keys()
 
+list(white_df.columns)
+list(black_df.columns)
 
-df.insert(0, 'mean', df.pop('mean'))
+# Place the winner move column at the end of the dataframe
+cols = list(white_df.columns.values)
+cols.pop(cols.index('winner_move'))
+white_df = white_df[cols + ['winner_move']]
+
+cols = list(black_df.columns.values)
+cols.pop(cols.index('winner_move'))
+black_df = black_df[cols + ['winner_move']]
+
+# Remove unnecessary columns
+white_df = white_df.drop('white_won', axis=1)
+white_df = white_df.drop('whites_turn', axis=1)
+black_df = black_df.drop('white_won', axis=1)
+black_df = black_df.drop('whites_turn', axis=1)
+
+np.shape(white_df)
+np.shape(black_df)
 
 
 #|%%--%%| <srkhbci04f|ALBd4YzEy1>
@@ -143,3 +161,17 @@ The goal is to predict if a move is a winning or losing move.
 We can build a dataset for f(X) = y, where X is the board state + requested
     move combo and y is whether or not the move was played by a winner or loser
 °°°"""
+
+clf = RandomForestClassifier(max_depth=2, random_state=0)
+
+input_data = white_df.iloc[:,:-1]
+outcome_data = white_df.iloc[:, 9]
+
+outcome_data.unique()
+
+clf.fit(input_data, outcome_data)
+
+input_data.dtypes
+
+outcome_data.dtypes
+
